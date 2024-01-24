@@ -12,7 +12,13 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^20.11.6",
+    "mongoose": "^8.1.0",
     "nodemon": "^3.0.3",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "bson": "^6.2.0",
+    "fs": "^0.0.1-security"
   }
 }
