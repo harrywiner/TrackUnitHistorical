@@ -1,0 +1,1 @@
+This is a file for inserting data from the historical endpoint of the TrackUnit classic API into our DeviceHistories collection in MongoDB 
