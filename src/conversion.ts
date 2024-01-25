@@ -26,6 +26,12 @@ export function TrackUnitToDeviceHistory(data: TrackUnitClassicDatum[], device: 
   }
 }
 
+/**
+ * Reads trackUnit api data and bins it by time. If there are not the correct number of telemetics in a bin, then it is deleted.
+ * @param data Input TrackUnit API data
+ * @param verbose 
+ * @returns A list TrackUnit data snapshots
+ */
 export function binData(data: TrackUnitClassicDatum[], verbose=false): TrackUnitClassicDatum[][] {
   let binnedData = {} as any;
 
@@ -51,4 +57,21 @@ export function binData(data: TrackUnitClassicDatum[], verbose=false): TrackUnit
   // take out of hash map
   const output = Object.values(binnedData);
   return output as TrackUnitClassicDatum[][];
+}
+
+export function sparsifyData(data: DeviceHistory[]): DeviceHistory[] {
+  var startTime = new Date(data[0].createdDate);
+
+  var sparseData = [] as any;
+
+  for (let datum of data) {
+    let time = new Date(datum.createdDate);
+    let diff = time.getTime() - startTime.getTime();
+    let hours = diff / 1000 / 60 / 60;
+    if (hours > 1) {
+      sparseData.push(datum);
+      startTime = time;
+    }
+  }
+  return sparseData;
 }

@@ -1,6 +1,6 @@
 import { TrackUnitClassicDatum } from "./src/types/TrackUnitClassicTypes";
 import { readSample } from "./src/utils";
-import { TrackUnitToDeviceHistory, binData} from "./src/conversion";
+import { TrackUnitToDeviceHistory, binData, sparsifyData} from "./src/conversion";
 import { Device, DeviceHistory } from "./src/types/SkyfallAgentTypes";
 
 import fs from "fs";
@@ -90,9 +90,10 @@ function readBinWrite() {
     output.push(deviceHistory);
   }
 
+  const sparseData = sparsifyData(output);
   
-  const outputPath = 'data/deviceHistory.json';
-  fs.writeFileSync(outputPath, JSON.stringify(output, null, 2));
+  const outputPath = 'data/sparseHistory.json';
+  fs.writeFileSync(outputPath, JSON.stringify(sparseData, null, 2));
   console.log(`Output written to ${outputPath}`);
 }
 
