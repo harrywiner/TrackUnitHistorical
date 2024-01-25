@@ -5,13 +5,15 @@ export type Device = {
 	deviceId: string, // TrackUnit classic id
 	name: string, //ces asset id
 	serialNumber: string,
-	provider: "trackunit"
+	provider: Provider
 }
 
 export type DeviceHistory = {
 	parentId?: ObjectId, // foreign id to Device collection
-	provider: "trackunit",
+	provider: Provider,
 	telemetry_data: any,
 	deviceType: "generator",
 	createdDate: Date
 }
+
+export type Provider = "trackunit" | "powerside" | "samsara";
