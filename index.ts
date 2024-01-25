@@ -1,5 +1,9 @@
 import { TrackUnitClassicDatum } from "./src/types/TrackUnitClassicTypes";
 import { readSample } from "./src/utils";
+import { TrackUnitToDeviceHistory, binData} from "./src/conversion";
+import { Device, DeviceHistory } from "./src/types/SkyfallAgentTypes";
+
+import fs from "fs";
 
 console.log("Hello Boozer!!")
 
@@ -29,7 +33,7 @@ function countTimes(data: TrackUnitClassicDatum[]) {
   return occurrences
 }
 
-function main() {
+function validityChecks() {
   const samplePath = 'data/historicalTelemetry8351123.json';
 
   const sample = readSample(samplePath);
@@ -64,4 +68,32 @@ function main() {
   }
 }
 
-main();
+// validityChecks();
+
+function readBinWrite() {
+  const samplePath = 'data/historicalTelemetry8351123.json';
+
+  const data = readSample(samplePath);
+
+  const device: Device = {
+    serialNumber: "5290349",
+    name: "X5M00216",
+    deviceId: "8351123",
+    provider: "trackunit"
+  }
+  const binnedData = binData(data);
+
+  const output = [] as DeviceHistory[];
+  for (var bin of binnedData) {
+    const deviceHistory = TrackUnitToDeviceHistory(bin, device);
+    console.log(deviceHistory);
+    output.push(deviceHistory);
+  }
+
+  
+  const outputPath = 'data/deviceHistory.json';
+  fs.writeFileSync(outputPath, JSON.stringify(output, null, 2));
+  console.log(`Output written to ${outputPath}`);
+}
+
+readBinWrite()
