@@ -44,9 +44,11 @@ export function binData(data: TrackUnitClassicDatum[], verbose=false): TrackUnit
     }
   }
 
+
+
   // delete incomplete records
   for (let key of Object.keys(binnedData)) {
-    if (binnedData[key].length !== 25) {
+    if (binnedData[key].length < 20) {
       if (verbose)
         console.log("Deleted data with length: ", binnedData[key].length)
 
